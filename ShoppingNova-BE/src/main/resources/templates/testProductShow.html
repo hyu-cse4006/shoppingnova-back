@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Details</title>
+</head>
+<body>
+
+<div>
+  <h1 th:text="${product.name}">Product Name</h1>
+  <p>Price: <span th:text="${product.price}">0</span> 원</p>
+  <div>
+    <img th:src="@{${product.imageUrl}}" alt="Product Image" style="max-width: 300px; max-height: 300px;">
+  </div>
+  <p>Rating: <span th:text="${product.rating}">0.0</span> / 5</p>
+</div>
+
+</body>
+</html>
