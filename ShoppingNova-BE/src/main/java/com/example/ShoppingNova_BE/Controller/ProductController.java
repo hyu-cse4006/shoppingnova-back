@@ -2,14 +2,11 @@ package com.example.ShoppingNova_BE.Controller;
 
 import com.example.ShoppingNova_BE.Entity.Product.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductController {
 
@@ -27,7 +24,7 @@ public class ProductController {
             throw new RuntimeException("Product not found with id: " + id);
         }
         model.addAttribute("product", product);
-        return "oneProduct";
+        return "testProductShow";
     }
 
 }
