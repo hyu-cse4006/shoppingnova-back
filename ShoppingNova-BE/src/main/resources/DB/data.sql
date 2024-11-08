@@ -11,3 +11,4 @@ INSERT INTO User (name, email, age, grade) VALUES
 ('박철수', 'parkcs@example.com', 28, 'Bronze'),
 ('이민지', 'leemj@example.com', 22, 'Platinum'),
 ('최수민', 'choism@example.com', 35, 'Diamond');
+
