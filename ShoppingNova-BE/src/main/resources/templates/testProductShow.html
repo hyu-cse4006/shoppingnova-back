@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
   <meta charset="UTF-8">
   <title>Product Details</title>
@@ -7,13 +7,26 @@
 <body>
 
 <div>
-  <h1 th:text="${product.name}">Product Name</h1>
+  <h1>상품 정보</h1>
+  <!-- 상품 이름 -->
+  <p th:text="${product.name}">상품 이름</p>
+
+  <!-- 가격 -->
   <p>Price: <span th:text="${product.price}">0</span> 원</p>
-  <div>
-    <img th:src="@{${product.imageUrl}}" alt="Product Image" style="max-width: 300px; max-height: 300px;">
-  </div>
+
+  <!-- 상품 평점 -->
   <p>Rating: <span th:text="${product.rating}">0.0</span> / 5</p>
+
+  <!-- 상품 리뷰 수 -->
+  <p>Review Number: <span th:text="${product.rateNum}">0</span></p>
+
+  <!-- 출시일 -->
+  <p>Release Date: <span th:text="${product.releaseDate}"></span></p>
+
+  <!-- 카테고리 -->
+  <p>Category: <span th:text="${product.category.name}">Category Name</span></p>
 </div>
 
 </body>
 </html>
+
