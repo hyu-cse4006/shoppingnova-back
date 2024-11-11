@@ -36,5 +36,33 @@ public class UserController {
         model.addAttribute("users", users);
         return "testUserShow"; // users.html 파일로 반환
     }
+
+    // 회원가입 및 로그인 페이지 로드
+    @GetMapping("/form")
+    public String showLoginRegisterForm() {
+        return "testLoginRegister";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
+        User user = userService.loginUser(email, password);
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "testLoginSuccess";  // 로그인 성공 시 별도의 URL로 리디렉션
+        } else {
+            return "redirect:/users/form?error=true";  // 로그인 실패 시 로그인 페이지로 리디렉션
+        }
+    }
+
+    @GetMapping("/success")
+    public String showLoginSuccess(Model model) {
+        return "testLoginSuccess";  // loginSuccess.html 파일을 렌더링
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestBody User user) {
+        userService.registerUser(user);
+        return "User registered successfully";
+    }
 }
 

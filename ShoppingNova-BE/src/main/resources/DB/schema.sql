@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS User (
     id INT AUTO_INCREMENT PRIMARY KEY,       -- 사용자 고유 ID
     name VARCHAR(255) NOT NULL,              -- 사용자 이름
     email VARCHAR(255) NOT NULL UNIQUE,      -- 사용자 이메일 (고유 값)
+    password VARCHAR(10) NOT NULL UNIQUE,     -- 비밀번호 (고유 값)
     age INT NOT NULL,                        -- 사용자 나이
     grade VARCHAR(50)                        -- 사용자 등급
 );
