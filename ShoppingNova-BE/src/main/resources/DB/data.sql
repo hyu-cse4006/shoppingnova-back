@@ -1,3 +1,5 @@
+USE NOVA;
+
 INSERT INTO product (name, price, image_url, rating, category_id) VALUES
 ('Product 1', 10000, 'https://example.com/product1.jpg', 4.5, 1),
 ('Product 2', 20000, 'https://example.com/product2.jpg', 4.3, 2),
