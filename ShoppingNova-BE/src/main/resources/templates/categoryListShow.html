@@ -26,6 +26,7 @@
   <thead>
   <tr>
     <th>ID</th>
+    <th>Category</th>
     <th>Name</th>
   </tr>
   </thead>
@@ -33,6 +34,7 @@
   <!-- Category 목록을 반복하여 출력 -->
   <tr th:each="category : ${categories}">
     <td th:text="${category.id}"></td>
+    <td th:text="${category.parent}"></td>
     <td th:text="${category.name}"></td>
   </tr>
   </tbody>
