@@ -25,7 +25,7 @@ public class UserController {
         if (user == null) {
             throw new RuntimeException("User not found with id: " + id);
         }
-        model.addAttribute("user", user);
+        model.addAttribute("users", user);
         return "testUserShow";
     }
 

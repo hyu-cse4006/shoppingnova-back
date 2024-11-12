@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <title>TV 상세 정보</title>
+</head>
+<body>
+<h1>상품 상세 정보</h1>
+
+<!-- 상품 정보 -->
+<div>
+  <h2>상품 이름: <span th:text="${product.name}">상품 이름</span></h2>
+  <p>가격: <span th:text="${product.price}">가격</span> 원</p>
+  <p>평점: <span th:text="${product.rating}">평점</span> / 5</p>
+  <p>리뷰 수: <span th:text="${product.rateNum}">리뷰 수</span></p>
+  <p>출시일: <span th:text="${product.releaseDate}">출시일</span></p>
+  <p>카테고리: <span th:text="${product.category.name}">카테고리</span></p>
+</div>
+
+<h2>TV 상세 정보</h2>
+<div>
+  <p>해상도: <span th:text="${tvDetail != null ? tvDetail.resolution : '정보 없음'}">해상도</span></p>
+  <p>무게: <span th:text="${tvDetail != null ? tvDetail.weight : '정보 없음'}">무게</span> kg</p>
+  <p>AI 프로세서: <span th:text="${tvDetail != null ? tvDetail.processor : '정보 없음'}">AI 프로세서</span></p>
+  <p>스피커 출력: <span th:text="${tvDetail != null ? tvDetail.sound : '정보 없음'}">스피커 출력</span></p>
+  <p>전원: <span th:text="${tvDetail != null ? tvDetail.plugin : '정보 없음'}">전원</span></p>
+  <p>크기: <span th:text="${tvDetail != null ? tvDetail.sizeX : '정보 없음'}">크기</span> x
+    <span th:text="${tvDetail != null ? tvDetail.sizeY : '정보 없음'}">크기</span> x
+    <span th:text="${tvDetail != null ? tvDetail.sizeZ : '정보 없음'}">크기</span> cm</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Product List</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Rating</th>
+    <th>Category</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Product 목록을 반복하여 출력 -->
+  <tr th:each="product : ${products}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.price}"></td>
+    <td th:text="${product.rating}"></td>
+    <!-- Category 정보도 함께 출력 (Category 엔티티가 있는 경우) -->
+    <td th:text="${product.category.name}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
