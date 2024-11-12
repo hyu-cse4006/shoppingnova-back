@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class User {
@@ -13,9 +16,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String name;
+
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
+    private String password;
+
+    @Positive
     private int age;
+
+    @NotBlank
     private String grade;
 
     // 기본 생성자
@@ -70,4 +84,9 @@ public class User {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
+    public String getPassword() {return password;}
+
+    public void setPassword(String password) {this.password=password;}
+
 }
