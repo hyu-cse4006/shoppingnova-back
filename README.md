@@ -45,4 +45,4 @@
 <img src="./imgs/ERD-1.JPG" alt="이미지 설명" width="500" height="300">
 
 ## 2차 ERD
-<img src="./imgs/ERD-2.PNG" alt="이미지 설명" width="500" height="300">
+<img src="./imgs/ERD-2.png" alt="이미지 설명" width="500" height="300">
