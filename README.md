@@ -46,3 +46,6 @@
 
 ## 2차 ERD
 <img src="./imgs/ERD-2.png" alt="이미지 설명" width="500" height="300">
+
+## 3차 ERD
+<img src="./imgs/ERD-3.png" alt="이미지 설명" width="500" height="300">
