@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### Exclude my addition ###
-application.properties
+application-secret.properties
