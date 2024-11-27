@@ -1,11 +1,16 @@
 package com.example.ShoppingNova_BE.Controller;
 
 import com.example.ShoppingNova_BE.S3.S3Service;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class S3Controller {
 
     private final S3Service s3Service;
@@ -14,20 +19,23 @@ public class S3Controller {
         this.s3Service = s3Service;
     }
 
-    @GetMapping("/api/files/{fileName}") // s3의 url 넘겨주기
+    @GetMapping("/files/{fileName}") // s3의 url 넘겨주기
     public String getFileUrl(@PathVariable String fileName) {
         return s3Service.getPublicFileUrl(fileName);
     }
 
-    @GetMapping("/html/{fileName}") // test 방식이다.
-    public String getHtmlWithImage(@PathVariable String fileName) {
-        String imageUrl = s3Service.getPublicFileUrl(fileName);
-        return "<html>" +
-                "<body>" +
-                "<h1>Test Image</h1>" +
-                "<img src='" + imageUrl + "' alt='Test Image'>" +
-                "</body>" +
-                "</html>";
+    // 이미지 1개 API -> URL 리턴
+    @GetMapping("/image/{folderName}/{fileName}")
+    public ResponseEntity<Map<String, String>> getImageUrl(
+            @PathVariable String folderName,
+            @PathVariable String fileName) {
+        String imageUrl = s3Service.getPublicFileUrl(folderName + "/" + fileName);
+
+        // JSON 형태로 URL 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("imageUrl", imageUrl);
+
+        return ResponseEntity.ok(response);
     }
 }
 
