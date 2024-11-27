@@ -4,13 +4,12 @@ import com.example.ShoppingNova_BE.S3.S3Service;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
 public class S3Controller {
 
     private final S3Service s3Service;
@@ -25,7 +24,8 @@ public class S3Controller {
     }
 
     // 이미지 1개 API -> URL 리턴
-    @GetMapping("/image/{folderName}/{fileName}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/api/{folderName}/{fileName}")
     public ResponseEntity<Map<String, String>> getImageUrl(
             @PathVariable String folderName,
             @PathVariable String fileName) {
