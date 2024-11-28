@@ -1,6 +1,7 @@
 package com.example.ShoppingNova_BE.Entity.Product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Product {
     @JsonProperty("rate_num") // JSON의 rate_num과 매핑
     private int rateNum;
 
+    @Column(name = "category_id") // DB 컬럼 이름을 명시적으로 매핑
     private int category_id;
 
     @JsonProperty("release_date") // JSON의 release_date와 매핑

@@ -1,28 +1,51 @@
 import React, { useEffect, useState } from "react";
 
-const ImageApi = ({ folderName, fileName }) => {
-  const [imageUrl, setImageUrl] = useState("");
+const ImageComponent = ({ id, cnt }) => {
+  const [imageUrls, setImageUrls] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // API 요청
-    fetch(`http://localhost:8080/api/${folderName}/${fileName}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setImageUrl(data.imageUrl); // API에서 반환된 이미지 URL 저장
+    const endpoint = cnt
+      ? `http://localhost:8080/api/images/${id}/${cnt}`
+      : `http://localhost:8080/api/images/${id}/all`;
+
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch image URLs");
+        }
+        return response.json();
       })
-      .catch((error) => console.error("Error fetching image URL:", error));
-  }, [folderName, fileName]);
+      .then((data) => {
+        // 단일 이미지 요청이면 `imageUrl` 사용
+        if (cnt) {
+          setImageUrls([data.imageUrl]);
+        } else {
+          // 다중 이미지 요청이면 리스트 저장
+          setImageUrls(data.map((item) => item.imageUrl));
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching images:", error);
+        setError(error.message);
+      });
+  }, [id, cnt]);
 
   return (
     <div>
-      <h1>Test Image</h1>
-      {imageUrl ? (
-        <img src={imageUrl} alt="Test" />
+      <h1>Image Viewer</h1>
+      {error && <p>Error: {error}</p>}
+      {imageUrls.length > 0 ? (
+        <div>
+          {imageUrls.map((url, index) => (
+            <img key={index} src={url} alt={`Image ${index + 1}`} />
+          ))}
+        </div>
       ) : (
-        <p>Loading image...</p>
+        !error && <p>Loading images...</p>
       )}
     </div>
   );
 };
 
-export default ImageApi;
+export default ImageComponent;

@@ -26,6 +26,10 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    public List<Product> getProductsByCategoryId(int category_id) {
+        return productRepository.findByCategoryId(category_id);
+    }
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
@@ -52,4 +56,6 @@ public class ProductService {
             throw new RuntimeException("S3 폴더의 데이터를 DB에 저장하는 중 오류가 발생했습니다.");
         }
     }
+
+
 }
