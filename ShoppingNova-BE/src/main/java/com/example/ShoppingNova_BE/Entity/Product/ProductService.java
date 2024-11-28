@@ -1,20 +1,24 @@
 package com.example.ShoppingNova_BE.Entity.Product;
 
-import com.example.ShoppingNova_BE.Entity.User.User;
+import com.example.ShoppingNova_BE.S3.S3Service;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final S3Service s3Service;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, S3Service s3Service) {
         this.productRepository = productRepository;
+        this.s3Service = s3Service;
+        this.objectMapper = new ObjectMapper();
     }
 
     // ID로 상품 조회
@@ -26,38 +30,26 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    // 새로운 상품 추가
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
-    }
+    // S3 폴더의 모든 JSON 파일을 DB에 저장
+    public void saveAllJsonFilesInFolder(String folderPath) {
+        try {
+            // 폴더 내 파일 리스트 가져오기
+            List<String> fileNames = s3Service.listFilesInFolder(folderPath);
 
-    // 상품 업데이트
-    public Product updateProduct(int id, Product productDetails) {
-        Product product = getProductById(id);
+            for (String fileName : fileNames) {
+                if (fileName.endsWith(".json")) { // JSON 파일만 처리
+                    String jsonData = s3Service.readJsonFile(fileName);
 
-        // 수정할 필드들을 새로운 필드명으로 설정
-        product.setName(productDetails.getName());
-        product.setPrice(productDetails.getPrice());
-        product.setRating(productDetails.getRating());
-        product.setRateNum(productDetails.getRateNum());
-        product.setCategory(productDetails.getCategory());
-        product.setReleaseDate(productDetails.getReleaseDate());
-        product.setLocationX(productDetails.getLocationX());
-        product.setLocationY(productDetails.getLocationY());
-        product.setLocationZ(productDetails.getLocationZ());
+                    // JSON 데이터를 Product 객체 리스트로 변환
+                    List<Product> products = objectMapper.readValue(jsonData, new TypeReference<List<Product>>() {});
 
-        // 여러 이미지 URL을 받아서 수정
-        product.setImageUrl1(productDetails.getImageUrl1());
-        product.setImageUrl2(productDetails.getImageUrl2());
-        product.setImageUrl3(productDetails.getImageUrl3());
-        product.setImageUrl4(productDetails.getImageUrl4());
-
-        return productRepository.save(product);
-    }
-
-    // 상품 삭제
-    public void deleteProduct(int id) {
-        Product product = getProductById(id);
-        productRepository.delete(product);
+                    // DB에 저장
+                    productRepository.saveAll(products);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("S3 폴더의 데이터를 DB에 저장하는 중 오류가 발생했습니다.");
+        }
     }
 }
