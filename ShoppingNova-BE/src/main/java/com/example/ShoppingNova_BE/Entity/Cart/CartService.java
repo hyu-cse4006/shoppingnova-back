@@ -1,8 +1,7 @@
 package com.example.ShoppingNova_BE.Entity.Cart;
 
 
-import com.example.ShoppingNova_BE.Entity.Product.*;
-import com.example.ShoppingNova_BE.Entity.User.*;
+import com.example.ShoppingNova_BE.Entity.Product.ProductRepository;
 import com.example.ShoppingNova_BE.Entity.User.UserRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -22,24 +21,7 @@ public class CartService {
     }
 
     // 장바구니 추가
-    @Transactional
-    public Cart addToCart(Long userId, Long productId, int quantity, int price) {
-        // DB에서 User와 Product를 조회
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
 
-        // Cart 객체 생성
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setQuantity(quantity);
-        cart.setPrice(price);
-
-        // Cart 저장
-        return cartRepository.save(cart);
-    }
 
     // 사용자별 장바구니 조회
     public List<Cart> getCartByUserId(Long userId) {

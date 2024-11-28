@@ -1,13 +1,11 @@
 package com.example.ShoppingNova_BE.Entity.Category;
 
-import com.example.ShoppingNova_BE.Entity.Product.Product;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,14 +13,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Category {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 매핑
+    private Integer id;
 
+    @Column(nullable = false) // name은 null이 될 수 없음
     private String name;
 
-    // Product와의 일대다 관계 설정
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> products;
+    @JoinColumn(name = "parent_id") // self-referencing foreign key
+    private Integer parent_id; // 상위 카테고리
 }

@@ -1,8 +1,10 @@
 package com.example.ShoppingNova_BE.Entity.Product;
 
-import com.example.ShoppingNova_BE.Entity.Category.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,13 +26,7 @@ public class Product {
     @JsonProperty("rate_num") // JSON의 rate_num과 매핑
     private int rateNum;
 
-    @Transient // DB에는 저장되지 않음
-    @JsonProperty("category_id") // JSON의 category_id와 매핑
-    private Long categoryId;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id") // 실제 DB에 저장되는 외래 키
-    private Category category;
+    private int category_id;
 
     @JsonProperty("release_date") // JSON의 release_date와 매핑
     private int releaseDate;
