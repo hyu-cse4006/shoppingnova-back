@@ -1,18 +1,25 @@
 package com.example.ShoppingNova_BE.Entity.Category;
 
+import com.example.ShoppingNova_BE.S3.S3Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final S3Service s3Service;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, S3Service s3Service,
+            ObjectMapper objectMapper) {
         this.categoryRepository = categoryRepository;
+        this.s3Service = s3Service;
+        this.objectMapper = objectMapper;
     }
 
     // 모든 카테고리 조회
@@ -45,5 +52,21 @@ public class CategoryService {
     public void deleteCategory(int id) {
         Category category = getCategoryById(id);
         categoryRepository.delete(category);
+    }
+
+    public void saveCategoryJson(String fileName) {
+        try {
+            // S3에서 JSON 파일 읽기
+            String jsonData = s3Service.readJsonFile(fileName);
+
+            // JSON 데이터를 List<Category>로 변환
+            List<Category> categories = objectMapper.readValue(jsonData, new TypeReference<List<Category>>() {});
+
+            // DB에 저장
+            categoryRepository.saveAll(categories);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error occurred while saving category data from file: " + fileName, e);
+        }
     }
 }

@@ -30,6 +30,5 @@ CREATE TABLE IF NOT EXISTS Product (
                                        resolution2 INT,                         -- 상품(TV) 해상도 세로 픽셀
                                        processor varchar(100),                  -- 상품(TV) AI 프로세서
                                        sound varchar(50),                       -- 상품(TV) 스피커 출력
-                                       plugin varchar(50),                      -- 상품(TV) 전원
-                                       FOREIGN KEY (category_id) REFERENCES Category(id) ON DELETE SET NULL ON UPDATE CASCADE  -- category_id 외래 키
+                                       plugin varchar(50)                      -- 상품(TV) 전원
 );

@@ -22,8 +22,8 @@ public class ProductService {
     }
 
     // ID로 상품 조회
-    public Product getProductById(int id) {
-        return productRepository.findById((long) id).orElse(null);
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElse(null);
     }
 
     public List<Product> getAllProducts() {
