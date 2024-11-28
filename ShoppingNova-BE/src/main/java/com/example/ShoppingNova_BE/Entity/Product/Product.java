@@ -1,134 +1,71 @@
 package com.example.ShoppingNova_BE.Entity.Product;
 
 import com.example.ShoppingNova_BE.Entity.Category.Category;
-import com.example.ShoppingNova_BE.Entity.TvDetail.TvDetail;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;               // 상품 고유 ID
+    private Long id;
 
-    @Column(nullable = false, length = 255)
-    private String name;          // 상품 이름
+    private String name;
 
-    @Column(nullable = false)
-    private int price;            // 상품 가격 (한국 원화, 소수점 없음)
+    private int price;
 
-    @Column
-    private double rating;        // 상품 평점
+    private float rating;
 
-    @Column(name = "rate_num")
-    private int rateNum;          // 상품 리뷰 개수
+    @JsonProperty("rate_num") // JSON의 rate_num과 매핑
+    private int rateNum;
+
+    @Transient // DB에는 저장되지 않음
+    @JsonProperty("category_id") // JSON의 category_id와 매핑
+    private Long categoryId;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "FK_PRODUCT_CATEGORY"))
-    private Category category;    // 카테고리 (외래 키)
+    @JoinColumn(name = "category_id") // 실제 DB에 저장되는 외래 키
+    private Category category;
 
-    @Column(name = "release_date")
-    private int releaseDate;      // 상품 출시 연도 (LocalDate로 변경)
+    @JsonProperty("release_date") // JSON의 release_date와 매핑
+    private int releaseDate;
 
-    @Column(name = "location_x")
-    private int locationX;        // 상품 좌표 x
+    private float weight;
 
-    @Column(name = "location_y")
-    private int locationY;        // 상품 좌표 y
+    @JsonProperty("size_x")
+    private int sizeX;
 
-    @Column(name = "location_z")
-    private int locationZ;        // 상품 좌표 z
+    @JsonProperty("size_y")
+    private int sizeY;
 
-    @Column(name = "image_url1", length = 500)
-    private String imageUrl1;     // 상품 이미지 url 1
+    @JsonProperty("size_z")
+    private int sizeZ;
 
-    @Column(name = "image_url2", length = 500)
-    private String imageUrl2;     // 상품 이미지 url 2
+    private String resolution; // TV에 해당 (null 가능)
+    private Integer resolution1; // TV 해상도 가로
+    private Integer resolution2; // TV 해상도 세로
 
-    @Column(name = "image_url3", length = 500)
-    private String imageUrl3;     // 상품 이미지 url 3
+    private String plugin; // TV 전원
+    private String processor; // TV AI 프로세서
+    private String sound; // TV 스피커 출력
 
-    @Column(name = "image_url4", length = 500)
-    private String imageUrl4;     // 상품 이미지 url
+    private String color; // 냉장고 색상
+    private String energy; // 냉장고 에너지 효율 등급
 
-    // 기본 생성자
-    public Product() {}
+    @JsonProperty("door_count")
+    private int doorCount;
 
-    // 생성자
-    public Product(String name, int price, double rating, int rateNum, Category category,
-                   int releaseDate, int locationX, int locationY, int locationZ,
-                   String imageUrl1, String imageUrl2, String imageUrl3, String imageUrl4) {
-        this.name = name;
-        this.price = price;
-        this.rating = rating;
-        this.rateNum = rateNum;
-        this.category = category;
-        this.releaseDate = releaseDate;
-        this.locationX = locationX;
-        this.locationY = locationY;
-        this.locationZ = locationZ;
-        this.imageUrl1 = imageUrl1;
-        this.imageUrl2 = imageUrl2;
-        this.imageUrl3 = imageUrl3;
-        this.imageUrl4 = imageUrl4;
-    }
+    @JsonProperty("volume_cold")
+    private int volumeCold;
 
-    // Getters and Setters
-    public int getId() { return id; }
+    @JsonProperty("volume_freeze")
+    private int volumeFreeze;
 
-    public void setId(int id) { this.id = id; }
-
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
-
-    public int getPrice() { return price; }
-
-    public void setPrice(int price) { this.price = price; }
-
-    public double getRating() { return rating; }
-
-    public void setRating(double rating) { this.rating = rating; }
-
-    public int getRateNum() { return rateNum; }
-
-    public void setRateNum(int rateNum) { this.rateNum = rateNum; }
-
-    public Category getCategory() { return category; }
-
-    public void setCategory(Category category) { this.category = category; }
-
-    public int getReleaseDate() { return releaseDate; }
-
-    public void setReleaseDate(int releaseDate) { this.releaseDate = releaseDate; }
-
-    public int getLocationX() { return locationX; }
-
-    public void setLocationX(int locationX) { this.locationX = locationX; }
-
-    public int getLocationY() { return locationY; }
-
-    public void setLocationY(int locationY) { this.locationY = locationY; }
-
-    public int getLocationZ() { return locationZ; }
-
-    public void setLocationZ(int locationZ) { this.locationZ = locationZ; }
-
-    public String getImageUrl1() { return imageUrl1; }
-
-    public void setImageUrl1(String imageUrl1) { this.imageUrl1 = imageUrl1; }
-
-    public String getImageUrl2() { return imageUrl2; }
-
-    public void setImageUrl2(String imageUrl2) { this.imageUrl2 = imageUrl2; }
-
-    public String getImageUrl3() { return imageUrl3; }
-
-    public void setImageUrl3(String imageUrl3) { this.imageUrl3 = imageUrl3; }
-
-    public String getImageUrl4() { return imageUrl4; }
-
-    public void setImageUrl4(String imageUrl4) { this.imageUrl4 = imageUrl4; }
+    // Getter 및 Setter 생략
+    // 필요한 경우 Lombok(@Getter/@Setter/@Data) 사용 가능
 }
-
