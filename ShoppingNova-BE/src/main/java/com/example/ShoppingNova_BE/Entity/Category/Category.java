@@ -2,8 +2,6 @@ package com.example.ShoppingNova_BE.Entity.Category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 매핑
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 매핑
     private Integer id;
 
     @Column(nullable = false) // name은 null이 될 수 없음

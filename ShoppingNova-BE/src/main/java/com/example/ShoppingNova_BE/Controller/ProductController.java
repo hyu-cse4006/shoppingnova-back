@@ -53,6 +53,7 @@ public class ProductController {
         productIntro.put("name", product.getName());
         productIntro.put("price", product.getPrice());
         productIntro.put("rating", product.getRating());
+        productIntro.put("image_url1", product.getImage_url1());
 
         return ResponseEntity.ok(productIntro);
     }

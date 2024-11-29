@@ -44,8 +44,6 @@ public class S3Service {
                 folderPath = folderPath + "/";
             }
 
-            //System.out.println("S3에서 가져올 경로: " + folderPath);
-
             // S3 요청 생성
             ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
                     .bucket(bucketName) // 버킷 이름
@@ -59,8 +57,6 @@ public class S3Service {
             List<String> fileNames = response.contents().stream()
                     .map(S3Object::key)
                     .collect(Collectors.toList());
-
-            //System.out.println("S3에서 가져온 파일 목록: " + fileNames);
 
             return fileNames;
         } catch (Exception e) {
@@ -85,7 +81,7 @@ public class S3Service {
             String jsonData = new BufferedReader(new InputStreamReader(s3Object))
                     .lines()
                     .collect(Collectors.joining("\n"));
-            //System.out.println("S3에서 읽은 JSON 데이터: " + jsonData);
+            System.out.println("S3에서 읽은 JSON 데이터: " + jsonData);
 
             return jsonData;
         } catch (Exception e) {
