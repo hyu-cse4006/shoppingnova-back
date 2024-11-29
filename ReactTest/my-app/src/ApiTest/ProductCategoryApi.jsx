@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import axios from "axios";
 const ProductsCategoryApi = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);

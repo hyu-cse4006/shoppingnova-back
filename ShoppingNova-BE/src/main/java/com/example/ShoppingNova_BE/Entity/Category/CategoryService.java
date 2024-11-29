@@ -33,6 +33,10 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
     }
 
+    public List<Category> getCategoriesByParentId(int parentId) {
+        return categoryRepository.findByParentId(parentId);
+    }
+
     // 새로운 카테고리 추가
     public Category addCategory(Category category) {
         return categoryRepository.save(category);

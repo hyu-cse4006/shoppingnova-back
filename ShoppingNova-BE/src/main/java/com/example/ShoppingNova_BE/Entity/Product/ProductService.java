@@ -3,7 +3,9 @@ package com.example.ShoppingNova_BE.Entity.Product;
 import com.example.ShoppingNova_BE.S3.S3Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,5 +74,21 @@ public class ProductService {
             e.printStackTrace();
             throw new RuntimeException("S3 폴더의 데이터를 DB에 저장하는 중 오류가 발생했습니다.");
         }
+    }
+
+    public Map<String, Object> getProductIntro(int productId) {
+        // 데이터베이스에서 상품 조회
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productId));
+
+        // 필요한 필드만 포함하는 Map 생성
+        Map<String, Object> productIntro = new HashMap<>();
+        productIntro.put("id", product.getId());
+        productIntro.put("name", product.getName());
+        productIntro.put("price", product.getPrice());
+        productIntro.put("rating", product.getRating());
+        productIntro.put("image_url1", product.getImage_url1()); // 상품 이미지 URL
+
+        return productIntro;
     }
 }

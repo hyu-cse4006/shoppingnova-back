@@ -1,14 +1,19 @@
 package com.example.ShoppingNova_BE.Controller;
 
-import com.example.ShoppingNova_BE.Entity.User.*;
+import com.example.ShoppingNova_BE.Entity.User.User;
+import com.example.ShoppingNova_BE.Entity.User.UserService;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/users")
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -18,17 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // 특정 사용자 조회
-    @GetMapping("/{id}")
-    public String getUser(@PathVariable int id, Model model) {
-        User user = userService.getUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User not found with id: " + id);
-        }
-        model.addAttribute("users", user);
-        return "testUserShow";
-    }
-
+    /*
     // 모든 사용자 조회
     @GetMapping("/all")
     public String testUserShowALL(Model model) {
@@ -36,33 +31,33 @@ public class UserController {
         model.addAttribute("users", users);
         return "testUserShow"; // users.html 파일로 반환
     }
+     */
 
-    // 회원가입 및 로그인 페이지 로드
-    @GetMapping("/form")
-    public String showLoginRegisterForm() {
-        return "testLoginRegister";
-    }
-
+    // 로그인 기능
     @PostMapping("/login")
-    public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
-        User user = userService.loginUser(email, password);
-        if (user != null) {
-            model.addAttribute("user", user);
-            return "testLoginSuccess";  // 로그인 성공 시 별도의 URL로 리디렉션
-        } else {
-            return "redirect:/users/form?error=true";  // 로그인 실패 시 로그인 페이지로 리디렉션
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest) {
+        String email = loginRequest.get("email");
+        String password = loginRequest.get("password");
+
+        try {
+            User user = userService.login(email, password);
+
+            // 필요한 필드만 포함한 응답 데이터 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("user", Map.of(
+                    "id", user.getId(),
+                    "name", user.getName(),
+                    "grade", user.getGrade()
+            ));
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
 
-    @GetMapping("/success")
-    public String showLoginSuccess(Model model) {
-        return "testLoginSuccess";  // loginSuccess.html 파일을 렌더링
-    }
-
-    @PostMapping("/register")
-    public String registerUser(@RequestBody User user) {
-        userService.registerUser(user);
-        return "User registered successfully";
-    }
 }
 

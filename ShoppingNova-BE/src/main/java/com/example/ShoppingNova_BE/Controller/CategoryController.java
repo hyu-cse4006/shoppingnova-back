@@ -2,14 +2,14 @@ package com.example.ShoppingNova_BE.Controller;
 
 import com.example.ShoppingNova_BE.Entity.Category.Category;
 import com.example.ShoppingNova_BE.Entity.Category.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/category")
 public class CategoryController {
 
@@ -22,25 +22,32 @@ public class CategoryController {
 
     // 모든 카테고리 조회
     @GetMapping("/all")
-    public String getAllCategories(Model model) {
+    public List<Category> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();  // 모든 카테고리 정보 조회
         if (categories.isEmpty()) {
             throw new RuntimeException("No categories found.");
         }
-        model.addAttribute("categories", categories);
-        return "categoryListShow";  // 카테고리 리스트를 표시할 HTML 템플릿
+        return categories;
     }
 
     // 특정 카테고리 조회
     @GetMapping("/{id}")
-    public String getCategory(@PathVariable int id, Model model) {
+    public Category getCategory(@PathVariable int id) {
         Category category = categoryService.getCategoryById(id);
         if (category == null) {
             throw new RuntimeException("Category not found with id: " + id);
         }
-        model.addAttribute("category", category);
-        return "testCategoryShow";  // 특정 카테고리의 상세 정보를 표시할 HTML 템플릿
+        return category;
     }
 
+    // 현재 카테고리 id의 자식 카테고리 id들 리턴하기
+    @GetMapping("/child/{id}")
+    public List<Category> getCategoryByChildId(@PathVariable int id) {
+        List<Category> childCategories = categoryService.getCategoriesByParentId(id);
+        if (childCategories.isEmpty()) {
+            throw new RuntimeException("No child categories found for parent ID: " + id);
+        }
+        return childCategories;
+    }
 }
 

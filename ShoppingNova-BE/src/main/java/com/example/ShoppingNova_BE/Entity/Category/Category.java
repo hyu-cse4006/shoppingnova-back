@@ -19,5 +19,6 @@ public class Category {
     private String name;
 
     @JoinColumn(name = "parent_id") // self-referencing foreign key
-    private Integer parent_id; // 상위 카테고리
+    @Column(name = "parent_id")
+    private Integer parentId; // 상위 카테고리
 }
