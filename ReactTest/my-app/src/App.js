@@ -1,4 +1,39 @@
 
+import React, { useState } from "react";
+import ProductApi from "./ApiTest/ProductApi";
+import ProductsCategoryApi from "./ApiTest/ProductCategoryApi";
+import UserCartApi from "./ApiTest/UserCartApi";
+import UserLoginApi from "./ApiTest/UserLoginApi";
+
+function App() {
+    const [view, setView] = useState("product"); // 기본 뷰를 'product'로 설정
+
+    return (
+        <div>
+            <h1>API Test App</h1>
+            <div style={{ marginBottom: "20px" }}>
+                <button onClick={() => setView("product1")}>ProductApi1</button>
+                <button onClick={() => setView("product2")}>ProductApi2</button>
+                <button onClick={() => setView("category")}>ProductCategoryApi</button>
+                <button onClick={() => setView("cart")}>UserCartApi</button>
+                <button onClick={() => setView("login")}>UserLoginApi</button>
+            </div>
+
+            <div>
+                {view === "product1" && <ProductApi id={1} />} {/* 예제 ID로 1 설정 */}
+                {view === "product2" && <ProductApi id={140} />} {/* 예제 ID로 140 설정 */}
+                {view === "category" && <ProductsCategoryApi categoryId={3} />} {/* 예제 카테고리 ID로 1 설정 */}
+                {view === "cart" && <UserCartApi userId={1} />} {/* 예제 사용자 ID로 1 설정 */}
+                {view === "login" && <UserLoginApi />}
+            </div>
+        </div>
+    );
+}
+
+export default App;
+
+
+/*
 import React from "react";
 import UserLoginApi from "./ApiTest/UserLoginApi"; // UserLoginApi.jsx의 경로에 따라 수정
 
