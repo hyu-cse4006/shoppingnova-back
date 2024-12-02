@@ -2,24 +2,27 @@ package com.example.ShoppingNova_BE.S3;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 @Service
 public class S3Service {
 
-    @Value("${s3.bucket-name}")
+    @Value("shopping-nova-1")
     private String bucketName;
 
     private final S3Client s3Client;
@@ -27,7 +30,7 @@ public class S3Service {
     public S3Service() {
         this.s3Client = S3Client.builder()
                 .region(Region.AP_NORTHEAST_2) // 강제로 리전 지정
-                .credentialsProvider(AnonymousCredentialsProvider.create())
+                .credentialsProvider(AnonymousCredentialsProvider.create()) // 익명 접근
                 .build();
     }
 
@@ -90,5 +93,22 @@ public class S3Service {
         }
     }
 
+    public void uploadJsonFile(String key, String jsonData) {
+        try {
+            System.out.println("Uploading file to S3: Key=" + key + ", Bucket=" + bucketName);
+            s3Client.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key(key)
+                            .contentType("application/json")
+                            .build(),
+                    RequestBody.fromString(jsonData, StandardCharsets.UTF_8)
+            );
+            System.out.println("File uploaded successfully.");
+        } catch (Exception e) {
+            System.err.println("S3 upload failed: " + e.getMessage());
+            throw new RuntimeException("Failed to upload JSON file to S3", e);
+        }
+    }
 }
 

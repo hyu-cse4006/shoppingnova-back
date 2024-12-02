@@ -7,10 +7,10 @@ function UserCartApi({ userId }) {
 
     useEffect(() => {
         // API 요청
-        fetch(`http://localhost:8080/api/cart/${userId}/intro`)
+        fetch(`http://3.35.58.101:8080/api/cart/${userId}/intro`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch cart data for userId: ${userId}`);
+                    throw new Error(`front: Failed to fetch cart data for userId: ${userId}`);
                 }
                 return response.json();
             })

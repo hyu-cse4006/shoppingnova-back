@@ -74,4 +74,5 @@ public class Product {
 
     // Getter 및 Setter 생략
     // 필요한 경우 Lombok(@Getter/@Setter/@Data) 사용 가능
+
 }

@@ -54,16 +54,19 @@ public class ProductService {
 
                     for (Product product : products) {
                         String type = "";
+                        int fileId = 0;
                         if(product.getId() >= 1 && product.getId() <= 84) {
                             type = "tv_";
+                            fileId = product.getId();
                         }else if(product.getId() >= 85 && product.getId() <= 176) {
                             type = "fridge_";
+                            fileId = product.getId()-84;
                         }
 
-                        product.setImage_url1(s3Service.getPublicFileUrl("image/product_"+ type + product.getId() + "_"+ 1+ ".png"));
-                        product.setImage_url2(s3Service.getPublicFileUrl("image/product_"+ type + product.getId() + "_"+ 2+ ".png"));
-                        product.setImage_url3(s3Service.getPublicFileUrl("image/product_"+ type + product.getId() + "_"+ 3+ ".png"));
-                        product.setImage_url4(s3Service.getPublicFileUrl("image/product_"+ type + product.getId() + "_"+ 4+ ".png"));
+                        product.setImage_url1(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 1+ ".png"));
+                        product.setImage_url2(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 2+ ".png"));
+                        product.setImage_url3(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 3+ ".png"));
+                        product.setImage_url4(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 4+ ".png"));
                     }
 
                     // DB에 저장

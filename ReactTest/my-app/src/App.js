@@ -4,6 +4,9 @@ import ProductApi from "./ApiTest/ProductApi";
 import ProductsCategoryApi from "./ApiTest/ProductCategoryApi";
 import UserCartApi from "./ApiTest/UserCartApi";
 import UserLoginApi from "./ApiTest/UserLoginApi";
+import ProductSortTest from "./ApiTest/ProductSortApi";
+import CartAddTest from "./ApiTest/CartAddTest";
+import CartDelTest from "./ApiTest/CartDelTest";
 
 function App() {
     const [view, setView] = useState("product"); // 기본 뷰를 'product'로 설정
@@ -15,8 +18,12 @@ function App() {
                 <button onClick={() => setView("product1")}>ProductApi1</button>
                 <button onClick={() => setView("product2")}>ProductApi2</button>
                 <button onClick={() => setView("category")}>ProductCategoryApi</button>
-                <button onClick={() => setView("cart")}>UserCartApi</button>
                 <button onClick={() => setView("login")}>UserLoginApi</button>
+                <button onClick={() => setView("sort")}>ProductSortTest</button>
+                
+                <button onClick={() => setView("cart")}>UserCartApi</button>
+                <button onClick={() => setView("addCart")}>CartAddTest</button>
+                <button onClick={() => setView("removeCart")}>CartDelTest</button>
             </div>
 
             <div>
@@ -25,6 +32,9 @@ function App() {
                 {view === "category" && <ProductsCategoryApi categoryId={3} />} {/* 예제 카테고리 ID로 1 설정 */}
                 {view === "cart" && <UserCartApi userId={1} />} {/* 예제 사용자 ID로 1 설정 */}
                 {view === "login" && <UserLoginApi />}
+                {view === "sort" && <ProductSortTest categoryId={3} />} {/* category_id 예제값 1 */}
+                {view === "addCart" && <CartAddTest />}
+                {view === "removeCart" && <CartDelTest />}
             </div>
         </div>
     );

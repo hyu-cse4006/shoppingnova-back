@@ -65,5 +65,57 @@ public class ProductController {
         return products;
     }
 
+    @GetMapping("/products/{category_id}/intro") // category_id=n인 상품 모두 가져오기
+    public List<Map<String, Object>> getProductsInCategoryIntro(@PathVariable int category_id) {
+        // 카테고리에 속하는 모든 상품을 가져오기
+        List<Product> products = productService.getProductsByCategoryId(category_id);
+
+        // 상품이 없을 경우 예외 처리
+        if (products.isEmpty()) {
+            throw new RuntimeException("No products found in category_id: " + category_id);
+        }
+
+        // 간단한 데이터만 포함한 리스트 생성
+        List<Map<String, Object>> productIntroList = products.stream().map(product -> {
+            Map<String, Object> productIntro = new HashMap<>();
+            productIntro.put("id", product.getId());
+            productIntro.put("name", product.getName());
+            productIntro.put("price", product.getPrice());
+            productIntro.put("rating", product.getRating());
+            productIntro.put("image_url1", product.getImage_url1());
+            return productIntro;
+        }).toList();
+
+        return productIntroList;
+    }
+
+    @GetMapping("/products/sort_rating/{category_id}")
+    public List<Product> getProductsInCategoryRating(@PathVariable int category_id) {
+        List<Product> products = productService.getProductsByCategoryId(category_id);
+
+        if (products.isEmpty()) {
+            throw new RuntimeException("No products found in category_id: " + category_id);
+        }
+
+        // rating 기준으로 내림차순 정렬
+        products.sort((p1, p2) -> Double.compare(p2.getRating(), p1.getRating()));
+
+        return products;
+    }
+
+    @GetMapping("/products/sort_price/{category_id}")
+    public List<Product> getProductsInCategoryPrice(@PathVariable int category_id) {
+        List<Product> products = productService.getProductsByCategoryId(category_id);
+
+        if (products.isEmpty()) {
+            throw new RuntimeException("No products found in category_id: " + category_id);
+        }
+
+        // price 기준으로 내림차순 정렬
+        products.sort((p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice()));
+
+        return products;
+    }
+
 }
 

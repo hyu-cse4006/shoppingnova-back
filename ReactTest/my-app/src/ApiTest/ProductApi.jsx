@@ -7,7 +7,7 @@ function ProductApi({ id }) {
 
     useEffect(() => {
         // API 요청
-        fetch(`http://localhost:8080/api/product/${id}`)
+        fetch(`http://3.35.58.101:8080/api/product/${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Product not found with ID: ${id}`);

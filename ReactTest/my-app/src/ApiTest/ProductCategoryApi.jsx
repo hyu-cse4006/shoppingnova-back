@@ -7,7 +7,7 @@ const ProductsCategoryApi = ({ categoryId }) => {
 
   useEffect(() => {
     // API 호출
-    fetch(`http://localhost:8080/api/products/${categoryId}`)
+    fetch(`http://3.35.58.101:8080/api/products/${categoryId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
