@@ -2,6 +2,7 @@ package com.example.ShoppingNova_BE.Controller;
 
 import com.example.ShoppingNova_BE.Entity.User.User;
 import com.example.ShoppingNova_BE.Entity.User.UserService;
+import com.example.ShoppingNova_BE.S3.S3Service;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final S3Service s3Service;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, S3Service s3Service) {
         this.userService = userService;
+        this.s3Service = s3Service;
     }
 
-    /*
-    // 모든 사용자 조회
-    @GetMapping("/all")
-    public String testUserShowALL(Model model) {
-        List<User> users = userService.getAllUsers(); // 모든 사용자를 가져오는 서비스 메서드 호출
-        model.addAttribute("users", users);
-        return "testUserShow"; // users.html 파일로 반환
-    }
-     */
 
     // 로그인 기능
     @PostMapping("/login")
@@ -58,6 +52,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
+
+
 
 }
 

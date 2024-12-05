@@ -114,7 +114,7 @@ public class CartController {
             // S3에서 기존 장바구니 데이터 읽기
             String jsonData = "";
             try {
-                jsonData = s3Service.readJsonFile(filePath + fileName);
+                        jsonData = s3Service.readJsonFile(filePath + fileName);
             } catch (Exception e) {
                 // 파일이 없으면 상품이 없다는 메시지 반환
                 return "Cart is empty for userId: " + user_id;
@@ -122,10 +122,10 @@ public class CartController {
 
             // JSON 데이터를 List로 변환
             ObjectMapper objectMapper = new ObjectMapper();
-            List<Map<String, Object>> cartData = objectMapper.readValue(jsonData, new TypeReference<List<Map<String, Object>>>() {});
+            List<Map<String, Object>> cartData = objectMapper.readValue(jsonData, new TypeReference<>() {});
 
-            // product_id에 해당하는 상품 삭제
-            boolean itemRemoved = cartData.removeIf(item -> item.get("id").equals(id));
+            // id에 해당하는 상품 삭제
+            boolean itemRemoved = cartData.removeIf(item -> item.get(id).equals(id));
 
             if (!itemRemoved) {
                 return "Product with ID " + id + " not found in the cart for userId: " + user_id;

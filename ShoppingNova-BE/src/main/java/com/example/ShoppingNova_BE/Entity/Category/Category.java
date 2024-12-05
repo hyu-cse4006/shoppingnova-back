@@ -1,5 +1,6 @@
 package com.example.ShoppingNova_BE.Entity.Category;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +19,7 @@ public class Category {
     @Column(nullable = false) // name은 null이 될 수 없음
     private String name;
 
+    @JsonProperty("parent_id")
     @JoinColumn(name = "parent_id") // self-referencing foreign key
     @Column(name = "parent_id")
     private Integer parentId; // 상위 카테고리

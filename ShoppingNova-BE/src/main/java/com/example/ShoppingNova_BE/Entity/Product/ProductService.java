@@ -62,6 +62,9 @@ public class ProductService {
                             type = "fridge_";
                             fileId = product.getId()-84;
                         }
+                        if(product.getCategory_id() >= 3){
+                            product.setCategory_id(product.getCategory_id()+2);
+                        }
 
                         product.setImage_url1(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 1+ ".png"));
                         product.setImage_url2(s3Service.getPublicFileUrl("image/product_"+ type + fileId + "_"+ 2+ ".png"));
