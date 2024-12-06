@@ -1,76 +1,80 @@
 # shoppingnova-back
 
-## 백엔드 기능 목록
+## Backend Feature List
 
-1. 로그인, 회원가입
-    - [O] 이메일, PW로 로그인 가능.
-    - [O] 회원가입 페이지에서 필수정보 입력후 가입 가능.
+1. Login, Signup
+    - [O] Login with email and password.
+    - [O] Sign up by entering required information on the signup page.
 
-2. 상품 조회(Read)
-    - [O] 카테고리를 클릭하여 세부사항으로 이동->단일 제품 조회.
-    - [O] 제품 정렬- 가격, 평점 기준 오름차순으로 정렬해서 카테고리 내의 상품 조회하기
-    - 이름 검색을 통한 세부 카테고리 이동.
-    - 가격 범위설정 같은 세부 필터링 만들기
+2. Product Viewing (Read)
+    - [O] Click on categories to navigate to detailed pages and view individual products.
+    - [O] Sort products by price and rating in ascending order within the category.
+    - Search by product name to navigate to the relevant subcategory.
+    - Implement price range filtering for more detailed filtering options.
 
-3. 장바구니 담기    
-    - [O] 로그인한 유저의 장바구니 데이터 출력하기
-    - [O] 장바구니에 상품 담고, 삭제하기
-    - [O] 동일 상품도 각각 담기게 되며, 결제는 장바구니 내역을 한번에 해야 한다. 
-    - 동일 상품을 장바구니 담기 하면-> 동일상품 담기 불가. 장바구니로 이동하도록 한다.
-    - 장바구니에서 주문 수량을 조절할 수 있는 기능 만들기
-    - 장바구니에서 특정 상품 선택해서 주문하기 기능 만들기
-    - (프론트) 장바구니에 상품을 담게 되면, 별이 장바구니 목록에 담기는 UI를 보여준다.
+3. Cart Management  
+    - [O] Display the cart data for the logged-in user.
+    - [O] Add and remove products from the cart.
+    - [O] Same product can be added multiple times, but checkout must be done for the entire cart at once.
+    - When adding the same product to the cart, prevent duplicate entries and redirect to the cart instead.
+    - Implement the ability to adjust the quantity of items in the cart.
+    - Implement the option to select specific products from the cart for checkout.
+    - (Frontend) Show a UI that displays stars on the cart list when a product is added.
 
-4. 상품 주문하기
-    - 장바구니에 담긴 상품 주문한다.
-    - 상품조회창에서 바로 주문하기(단일상품).
-    - 상품 주문시 주문 목록에 추가됨.
 
-5. 상품 평점 작성
-    - [O] 제품에 대한 평점과 평가 인원 정보를 보여준다.
-    - 상품에 평점을 추가및 수정(작성후 특정 기간 내에만)할 수 있다.
-    - 상품 평점과 함께 등록할 상품 후기 내용(글,사진) 기능을 추가한다.
 
-6. 타임세일,한정판 상품목록 조회하기
-    - 타임세일 상품의 경우 시간제한 설정
-    - 한정판의 경우 남은 재고 표시
-    - (프론트)구매 불가 상태가 된 경우, 별이 폭발하는 UI(초신성)-> (백엔드)상품 자동 삭제 
+4. Product Ordering
+    - Order the products in the cart.
+    - Order directly from the product detail page (single product).
+    - Add the product to the order list upon placing the order.
 
-7. 판매 상품관리
-    - 관리자는 상품의 변경사항을 관리하고, 판매종료 상품은 제거한다(Update, Delete)
-    - 가격 할인, 타임세일, 한정판 같은 이벤트를 관리한다. 
+5. Product Rating
+    - [O] Display product ratings and the number of reviews.
+    - Add and edit product ratings (can only be edited within a specific period after submission).
+    - Allow adding a product review (text, photos) along with the rating.
 
-## 개발 목표
+6. Time Sale and Limited Edition Product Listings
+    - For time sale products, set a time limit.
+    - For limited edition products, show the remaining stock.
+    - (Frontend) Display a UI where stars explode (supernova) when the product becomes unavailable. 
+    - (Backend) Automatically delete the product when it becomes unavailable.
 
-#### 1차 : 회원가입및 로그인 기능, 상품 DB구성, 카테고리 이동및 단일상품 조회, 상품평점 추가.
-#### 2차 : 사용자의 필터링,검색 상품조회, 상품 , 주문하기장바구니 담기및 주문하기.
+7. Product Management (Admin)
+    - The administrator manages changes to products and removes discontinued products (Update, Delete).
+    - Manage events such as price discounts, time sales, and limited edition items.
+
+## Development Goals
+
+#### Phase 1: User signup and login functionality, product database setup, category navigation and single product view, adding product ratings.
+#### Phase 2: User filtering, search product listings, product, cart management, adding products to the cart and placing orders.
 
 ## ERD
 
-### 1차 ERD
+### 1st ERD
 <img src="./imgs/ERD-1.JPG" alt="이미지 설명" width="500" height="300">
 
-### 2차 ERD
+### 2nd ERD
 <img src="./imgs/ERD-2.png" alt="이미지 설명" width="500" height="300">
 
-### 3차 ERD
+### 3rd ERD
 <img src="./imgs/ERD-3.png" alt="이미지 설명" width="500" height="300">
 
-## API 테이블
+## API Table
 
-| 번호 | 엔티티      | 기능                          | API 명칭             | 설명                                |
-|------|-------------|-------------------------------|----------------------|-------------------------------------|
-| 1    | Users       | 로그인                       | user_login          | 기존 사용자 정보로 로그인           |
-| 2    | Product     | 카테고리 제품 목록            | product_list        | 하위 카테고리의 전체 제품 목록      |
-| 3    |             | 카테고리 제품 일부 정보       | product_listInfo    | 목록 속 제품들의 일부 정보          |
-| 4    |             | 특정 제품 일부 정보           | product_info        | 특정 제품의 일부 정보               |
-| 5    |             | 특정 제품 상세 정보           | product_detail      | 특정 제품의 상세 정보               |
-| 6    |             | 제품 정렬 (평점 기준)         | product_rateSort    | 평점을 기준으로 높은 순으로 정렬    |
-| 7    |             | 제품 정렬 (가격 기준)         | product_priceSort   | 가격을 기준으로 높은 순으로 정렬    |
-| 8    | Category    | 상위, 하위 카테고리 정보      | category_table      | 카테고리 테이블                    |
-| 9    |             | 특정 카테고리 정보            | category_info       | 특정 카테고리 정보                  |
-| 10   |             | 하위 카테고리 정보            | category_child      | 하위 카테고리 조회                  |
-| 11   | Cart        | 장바구니 목록                 | cart_list           | 장바구니 목록 조회                  |
-| 12   |             | 장바구니 담기                 | cart_append         | 장바구니에 제품 추가                |
-| 13   |             | 장바구니 삭제                 | cart_delete         | 장바구니에서 제품 삭제              |
+| No   | Entity      | Function                         | API Name            | Description                          |
+|------|-------------|----------------------------------|---------------------|--------------------------------------|
+| 1    | Users       | Login                            | user_login          | Log in with existing user information |
+| 2    | Product     | Category product list            | product_list        | List of all products in a subcategory |
+| 3    |             | Partial product information      | product_listInfo    | Partial information of products in the list |
+| 4    |             | Specific product partial info    | product_info        | Partial information of a specific product |
+| 5    |             | Specific product detail info     | product_detail      | Detailed information of a specific product |
+| 6    |             | Product sorting (by rating)      | product_rateSort    | Sort products in descending order by rating |
+| 7    |             | Product sorting (by price)       | product_priceSort   | Sort products in descending order by price |
+| 8    | Category    | Parent and subcategory info      | category_table      | Category table                       |
+| 9    |             | Specific category info           | category_info       | Information of a specific category   |
+| 10   |             | Subcategory info                 | category_child      | View subcategories                   |
+| 11   | Cart        | Cart list                        | cart_list           | View the cart list                   |
+| 12   |             | Add to cart                      | cart_append         | Add product to the cart              |
+| 13   |             | Remove from cart                 | cart_delete         | Remove product from the cart         |
+
 
